@@ -26,10 +26,15 @@ export class MoviesSearchComponent implements OnInit, AfterViewInit{
   searchValue = ''
   currentPage = 1
   
+  windowScrolled = false;
+
   constructor(private MoviesApiService: MoviesApiService) {}
 
   ngOnInit(): void {
     this.loadMovies()
+    window.addEventListener('scroll', () => {
+      this.windowScrolled = window.pageYOffset !== 0;
+    });
   }
 
   loadMoviesMore(){
@@ -61,6 +66,10 @@ export class MoviesSearchComponent implements OnInit, AfterViewInit{
     }else{
       this.MoviesApiService.getPopularMovies(this.currentPage).subscribe(updateMoviesList);
     }
+  }
+
+  scrollToTop(): void {
+    window.scrollTo(0, 0);
   }
 
 }

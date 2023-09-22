@@ -31,3 +31,16 @@
 .view-favorites-btn{
     margin: 0.5rem
 }
+
+.to-top-btn {
+    cursor: pointer;
+    margin-left:1rem;
+    opacity: 0;
+    background: black;
+    border: 1px solid white;
+}
+  
+.to-top-btn-show {
+    opacity: 1 !important;
+    transition: all 0.2s ease-in-out;
+}
