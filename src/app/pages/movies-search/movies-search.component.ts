@@ -2,11 +2,12 @@ import { AfterViewInit, Component, ElementRef, OnInit, TrackByFunction, ViewChil
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, fromEvent, map, takeUntil } from 'rxjs';
 import { MovieCardsComponent } from 'src/app/components/movie-cards/movie-cards.component';
 import { MovieListItem } from 'src/app/shared/movies.model';
 import { PaginatedResult } from 'src/app/shared/shared.model';
 import { MoviesApiService } from '../../services/movies.api-service';
+import { Unsub } from 'src/app/shared/unsub.class';
 
 @Component({
   selector: 'app-movies-search',
@@ -15,7 +16,7 @@ import { MoviesApiService } from '../../services/movies.api-service';
   standalone: true,
   imports: [RouterModule, CommonModule, MovieCardComponent, MovieCardsComponent],
 })
-export class MoviesSearchComponent implements OnInit, AfterViewInit{
+export class MoviesSearchComponent extends Unsub implements OnInit, AfterViewInit{
 
   @ViewChild('searchBox') searchBox: ElementRef | null = null
 
@@ -28,7 +29,9 @@ export class MoviesSearchComponent implements OnInit, AfterViewInit{
   
   windowScrolled = false;
 
-  constructor(private MoviesApiService: MoviesApiService) {}
+  constructor(private MoviesApiService: MoviesApiService) {
+    super();
+  }
 
   ngOnInit(): void {
     this.loadMovies()
@@ -46,7 +49,8 @@ export class MoviesSearchComponent implements OnInit, AfterViewInit{
     fromEvent(this.searchBox?.nativeElement, 'input').pipe(
       map(event => (event as any).target.value),
       debounceTime(500),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      takeUntil(this.unsubscribe$)
     ).subscribe((searchValue: string) => {
       this.searchValue = searchValue
       this.currentPage = 1
@@ -62,9 +66,9 @@ export class MoviesSearchComponent implements OnInit, AfterViewInit{
       this.isLoading = false
     }
     if(this.searchValue){
-      this.MoviesApiService.searchMovies(this.searchValue, this.currentPage).subscribe(updateMoviesList);
+      this.MoviesApiService.searchMovies(this.searchValue, this.currentPage).pipe(takeUntil(this.unsubscribe$)).subscribe(updateMoviesList);
     }else{
-      this.MoviesApiService.getPopularMovies(this.currentPage).subscribe(updateMoviesList);
+      this.MoviesApiService.getPopularMovies(this.currentPage).pipe(takeUntil(this.unsubscribe$)).subscribe(updateMoviesList);
     }
   }
 

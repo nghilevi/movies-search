@@ -24,7 +24,6 @@ export class MovieDetailComponent implements OnInit {
   movie$: Observable<MovieDetail> = of()
 
   ngOnInit(): void {
-    console.log('oninit')
     this.route.url
       .subscribe(paths => {
         const movieId = paths[1].path

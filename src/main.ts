@@ -3,8 +3,6 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideRouter, Routes } from '@angular/router';
 import { AppComponent } from './app/app.component';
-import { FavoriteMoviesComponent } from './app/pages/favorite-movies/favorite-movies.component';
-import { MovieDetailComponent } from './app/pages/movie-detail/movie-detail.component';
 
 const routes: Routes = [
   {
@@ -14,11 +12,11 @@ const routes: Routes = [
   },
   {
     path: 'movie/favorites',
-    component: FavoriteMoviesComponent
+    loadComponent: () => import('./app/pages/favorite-movies/favorite-movies.component').then((c) => c.FavoriteMoviesComponent)
   },
   {
     path: 'movie/:id',
-    component: MovieDetailComponent
+    loadComponent: () => import('./app/pages/movie-detail/movie-detail.component').then((c) => c.MovieDetailComponent)
   },
   {
     path: '**',
