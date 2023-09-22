@@ -4,5 +4,5 @@
         'background-size': 'cover'
     }">
     <h1 class="title">{{movie.title}} {{ movie.release_date }} {{ movie.vote_average }}</h1>
-    <app-favorite-btn></app-favorite-btn>
+    <app-add-favorite-movie-btn [movie]="movie"></app-add-favorite-movie-btn>
 </div>

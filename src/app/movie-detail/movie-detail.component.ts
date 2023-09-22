@@ -4,9 +4,9 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable, map, of } from 'rxjs';
 import { Genre, Movie } from '../shared/movies.model';
-import { FavoriteBtnComponent } from '../favorite-btn/favorite-btn.component';
+import { FavoriteBtnComponent } from '../add-favorite-movie-btn/add-favorite-movie-btn.component';
 
-interface MovieDetail extends Movie {
+export interface MovieDetail extends Movie {
   genresNames: string
  }
 
@@ -24,6 +24,7 @@ export class MovieDetailComponent implements OnInit {
   movie$: Observable<MovieDetail> = of()
 
   ngOnInit(): void {
+    console.log('oninit')
     this.route.url
       .subscribe(paths => {
         const movieId = paths[1].path

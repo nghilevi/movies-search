@@ -1,12 +1,8 @@
 <section class="movies-search">
     <input #searchBox placeholder="🔎 Search for movies" />
-    <button class="view-favorite-btn">View favorites</button>
+    <button class="view-favorites-btn" routerLink="/movie/favorites">View favorites</button>
 </section>
-<section class="cards">
-    <app-movie-card *ngFor="let movie of (movies$  | async); trackBy: trackByMovieId" 
-    tabIndex={trackByMovieId} routerLink="/movie/{{movie.id}}"
-    [movie]="movie"></app-movie-card>
-</section>
+<app-movie-cards [movies]="movies$ | async"></app-movie-cards>
 <section class="load-more">
     <button [disabled]="isLoading" (click)="loadMoviesMore()">{{isLoading ? 'Loading...' : 'Load more movies'}}</button>
 </section>

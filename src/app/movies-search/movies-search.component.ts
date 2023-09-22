@@ -1,18 +1,19 @@
 import { AfterViewInit, Component, ElementRef, OnInit, TrackByFunction, ViewChild } from '@angular/core';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
 import { MovieListItem } from '../shared/movies.model';
 import { MoviesApiService } from '../services/movies.api-service';
 import { PaginatedResult } from '../shared/shared.model';
+import { MovieCardsComponent } from '../movie-cards/movie-cards.component';
 
 @Component({
   selector: 'app-movies-search',
   templateUrl: './movies-search.component.html',
   styleUrls: ['./movies-search.component.scss'],
   standalone: true,
-  imports: [RouterModule, CommonModule, NgFor, MovieCardComponent],
+  imports: [RouterModule, CommonModule, MovieCardComponent, MovieCardsComponent],
 })
 export class MoviesSearchComponent implements OnInit, AfterViewInit{
 
@@ -61,7 +62,5 @@ export class MoviesSearchComponent implements OnInit, AfterViewInit{
       this.MoviesApiService.getPopularMovies(this.currentPage).subscribe(updateMoviesList);
     }
   }
-
-  trackByMovieId: TrackByFunction<MovieListItem> = (index, movie) => movie.id;
 
 }

@@ -4,6 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideRouter, Routes } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { MovieDetailComponent } from './app/movie-detail/movie-detail.component';
+import { FavoriteMoviesComponent } from './app/favorite-movies/favorite-movies.component';
 
 const routes: Routes = [
   {
@@ -12,11 +13,11 @@ const routes: Routes = [
     loadComponent: () => import('./app/movies-search/movies-search.component').then((c) => c.MoviesSearchComponent)
   },
   {
-    path: 'movie/:id',
-    component: MovieDetailComponent
+    path: 'movie/favorites',
+    component: FavoriteMoviesComponent
   },
   {
-    path: 'movie/favorites',
+    path: 'movie/:id',
     component: MovieDetailComponent
   },
   {

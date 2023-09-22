@@ -1,11 +1,11 @@
-.cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
 .movies-search {
-    text-align: center;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    position:fixed;
+    top:0;
+    z-index: 300;
+    width: 100%;
+    background: black;
     input {
         font-family: callunaregular, Arial;
         padding: 8px 0 8px 8px;
@@ -14,7 +14,7 @@
         border: 1px solid black;
         outline: 0;
         margin: 10px;
-        width: 400px;
+        width: 40%;
     }
 }
 
@@ -28,7 +28,6 @@
     z-index: 200;
 }
 
-.view-favorite-btn{
-    position: absolute;
-    right: 1rem;
+.view-favorites-btn{
+    margin: 0.5rem
 }

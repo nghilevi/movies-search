@@ -11,7 +11,7 @@
                 <p><label>Release date: </label>{{movie.release_date}}</p>
                 <p><label>Genres: </label>{{movie.genresNames}}</p>
                 <p><label>Average: </label>{{movie.vote_average}}</p>
-                <app-favorite-btn>Add to favorites</app-favorite-btn>
+                <app-add-favorite-movie-btn [movie]="movie">Add to favorites</app-add-favorite-movie-btn>
             </section>
         </section>
         <section class="movie-overview">

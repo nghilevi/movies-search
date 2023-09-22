@@ -42,7 +42,7 @@
             "outputPath": "dist/demo",
             "scripts": [],
             "styles": [
-              "src/global_styles.css"
+              "src/global_styles.scss"
             ],
             "tsConfig": "src/tsconfig.app.json"
           }

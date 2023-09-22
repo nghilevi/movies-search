@@ -1,0 +1,5 @@
+<section class="movie-cards">
+    <app-movie-card *ngFor="let movie of movies; trackBy: trackByMovieId" 
+    tabIndex={trackByMovieId} routerLink="/movie/{{movie.id}}"
+    [movie]="movie"></app-movie-card>
+</section>

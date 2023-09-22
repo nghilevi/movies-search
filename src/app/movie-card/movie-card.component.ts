@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MovieListItem } from '../shared/movies.model';
 import { CommonModule } from '@angular/common';
-import { FavoriteBtnComponent } from '../favorite-btn/favorite-btn.component';
+import { FavoriteBtnComponent } from '../add-favorite-movie-btn/add-favorite-movie-btn.component';
 
 @Component({
   selector: 'app-movie-card',
