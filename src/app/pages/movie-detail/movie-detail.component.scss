@@ -2,10 +2,16 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 15px;
-    align-items: center;
+    align-items: top;
     margin: 1rem 0;
 }
 
-.movie-info {
-    position: relative;
+.movie-info-header{
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    margin-top: 4rem;
+    h1{
+        margin: 0;
+    }
 }

@@ -8,6 +8,7 @@ import { MovieListItem } from 'src/app/shared/movies.model';
 import { PaginatedResult } from 'src/app/shared/shared.model';
 import { MoviesApiService } from '../../services/movies.api-service';
 import { Unsub } from 'src/app/shared/unsub.class';
+import { SearchService } from 'src/app/services/search.service';
 
 @Component({
   selector: 'app-movies-search',
@@ -16,9 +17,7 @@ import { Unsub } from 'src/app/shared/unsub.class';
   standalone: true,
   imports: [RouterModule, CommonModule, MovieCardComponent, MovieCardsComponent],
 })
-export class MoviesSearchComponent extends Unsub implements OnInit, AfterViewInit{
-
-  @ViewChild('searchBox') searchBox: ElementRef | null = null
+export class MoviesSearchComponent extends Unsub implements OnInit {
 
   private moviesSub = new BehaviorSubject<MovieListItem[]>([]);
   movies$ = this.moviesSub.asObservable()
@@ -29,12 +28,20 @@ export class MoviesSearchComponent extends Unsub implements OnInit, AfterViewIni
   
   windowScrolled = false;
 
-  constructor(private MoviesApiService: MoviesApiService) {
+  constructor(private MoviesApiService: MoviesApiService, private searchService: SearchService) {
     super();
   }
 
   ngOnInit(): void {
-    this.loadMovies()
+
+    this.searchService.onSearch$
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((searchValue: string) => {
+      this.searchValue = searchValue
+      this.currentPage = 1
+      this.loadMovies()
+    });
+
     window.addEventListener('scroll', () => {
       this.windowScrolled = window.pageYOffset !== 0;
     });
@@ -43,19 +50,6 @@ export class MoviesSearchComponent extends Unsub implements OnInit, AfterViewIni
   loadMoviesMore(){
     this.currentPage++
     this.loadMovies()
-  }
-
-  ngAfterViewInit(): void {
-    fromEvent(this.searchBox?.nativeElement, 'input').pipe(
-      map(event => (event as any).target.value),
-      debounceTime(500),
-      distinctUntilChanged(),
-      takeUntil(this.unsubscribe$)
-    ).subscribe((searchValue: string) => {
-      this.searchValue = searchValue
-      this.currentPage = 1
-      this.loadMovies()
-    });
   }
 
   loadMovies(){

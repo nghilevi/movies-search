@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { Observable, map, of } from 'rxjs';
 import { FavoriteBtnComponent } from 'src/app/components/add-favorite-movie-btn/add-favorite-movie-btn.component';
 import { Movie, Genre } from 'src/app/shared/movies.model';
-
 export interface MovieDetail extends Movie {
   genresNames: string
  }

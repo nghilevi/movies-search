@@ -1,7 +1,3 @@
-<section class="movies-search">
-    <input #searchBox placeholder="🔎 Search for movies" />
-    <button class="view-favorites-btn" routerLink="/movie/favorites">View favorites</button>
-</section>
 <app-movie-cards id="movies-list" [movies]="movies$ | async"></app-movie-cards>
 <section class="load-more">
     <button [disabled]="isLoading" (click)="loadMoviesMore()">{{isLoading ? 'Loading...' : 'Load more movies'}}</button>
