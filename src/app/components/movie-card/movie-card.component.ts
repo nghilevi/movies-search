@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { MovieListItem } from '../shared/movies.model';
 import { CommonModule } from '@angular/common';
+import { MovieListItem } from 'src/app/shared/movies.model';
 import { FavoriteBtnComponent } from '../add-favorite-movie-btn/add-favorite-movie-btn.component';
 
 @Component({

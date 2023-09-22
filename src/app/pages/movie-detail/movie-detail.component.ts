@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MoviesApiService } from '../services/movies.api-service';
+import { MoviesApiService } from '../../services/movies.api-service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable, map, of } from 'rxjs';
-import { Genre, Movie } from '../shared/movies.model';
-import { FavoriteBtnComponent } from '../add-favorite-movie-btn/add-favorite-movie-btn.component';
+import { FavoriteBtnComponent } from 'src/app/components/add-favorite-movie-btn/add-favorite-movie-btn.component';
+import { Movie, Genre } from 'src/app/shared/movies.model';
 
 export interface MovieDetail extends Movie {
   genresNames: string

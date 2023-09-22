@@ -1,8 +1,8 @@
 import { Component, Input, TrackByFunction } from '@angular/core';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
 import { RouterModule } from '@angular/router';
-import { MovieListItem } from '../shared/movies.model';
 import { NgFor } from '@angular/common';
+import { MovieListItem } from 'src/app/shared/movies.model';
 
 @Component({
   selector: 'app-movie-cards',

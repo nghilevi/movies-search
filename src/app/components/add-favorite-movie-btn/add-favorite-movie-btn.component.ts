@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LS_KEY, LocalService } from '../services/local.service';
+import { LS_KEY, LocalService } from '../../services/local.service';
 import { CommonModule } from '@angular/common';
-import { MovieListItem } from '../shared/movies.model';
-import { MovieDetail } from '../movie-detail/movie-detail.component';
+import { MovieListItem } from '../../shared/movies.model';
+import { MovieDetail } from 'src/app/pages/movie-detail/movie-detail.component';
 
 @Component({
   selector: 'app-add-favorite-movie-btn',

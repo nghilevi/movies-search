@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalService } from '../services/local.service';
+import { LocalService } from '../../services/local.service';
 import { RouterModule } from '@angular/router';
-import { MovieCardsComponent } from '../movie-cards/movie-cards.component';
+import { MovieCardsComponent } from 'src/app/components/movie-cards/movie-cards.component';
 
 @Component({
   selector: 'app-favorite-movies',

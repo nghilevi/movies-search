@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, ElementRef, OnInit, TrackByFunction, ViewChild } from '@angular/core';
-import { MovieCardComponent } from '../movie-card/movie-card.component';
+import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, fromEvent, map } from 'rxjs';
-import { MovieListItem } from '../shared/movies.model';
-import { MoviesApiService } from '../services/movies.api-service';
-import { PaginatedResult } from '../shared/shared.model';
-import { MovieCardsComponent } from '../movie-cards/movie-cards.component';
+import { MovieCardsComponent } from 'src/app/components/movie-cards/movie-cards.component';
+import { MovieListItem } from 'src/app/shared/movies.model';
+import { PaginatedResult } from 'src/app/shared/shared.model';
+import { MoviesApiService } from '../../services/movies.api-service';
 
 @Component({
   selector: 'app-movies-search',
