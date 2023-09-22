@@ -1,0 +1,8 @@
+<div *ngIf="movie" class="card" title="click me!" 
+    [ngStyle]="{
+        'background-image': 'url(https://www.themoviedb.org/t/p/w440_and_h660_face/' + movie.poster_path + ')',
+        'background-size': 'cover'
+    }">
+    <h1 class="title">{{movie.title}} {{ movie.release_date }} {{ movie.vote_average }}</h1>
+    <app-favorite-btn></app-favorite-btn>
+</div>

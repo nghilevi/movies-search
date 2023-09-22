@@ -1,0 +1,26 @@
+<section class="container">
+    <button routerLink="/"> ⬅️ Go back</button>
+    <section *ngIf="(this.movie$ | async) as movie; else error">
+        <section class="movie-detail">
+            <section class="movie-poster">
+                <img src="https://www.themoviedb.org/t/p/w440_and_h660_face/{{movie.poster_path}}" />
+            </section>
+            <section class="movie-info">
+                <h1>Movie info</h1>
+                <p><label>Movie title: </label>{{movie.title}}</p>
+                <p><label>Release date: </label>{{movie.release_date}}</p>
+                <p><label>Genres: </label>{{movie.genresNames}}</p>
+                <p><label>Average: </label>{{movie.vote_average}}</p>
+                <app-favorite-btn>Add to favorites</app-favorite-btn>
+            </section>
+        </section>
+        <section class="movie-overview">
+            <h1>Overview</h1>
+            <p>{{movie.overview}}</p>
+        </section>
+    </section>
+</section>
+
+<ng-template #error>
+    Something wrong, can not display movie detail!
+</ng-template>

@@ -1,0 +1,11 @@
+.movie-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.movie-info {
+    position: relative;
+}

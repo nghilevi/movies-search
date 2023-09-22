@@ -1,0 +1,4 @@
+<div class="favorite-btn" (click)="toggleFavorite($event)" title="Add to favorite">
+   <div class="favorite-btn-icon">{{ isFavorite ? '🩷' : '🤍' }}</div>
+   <div class="favorite-btn-label"><ng-content></ng-content></div>
+</div>

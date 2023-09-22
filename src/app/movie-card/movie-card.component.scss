@@ -1,0 +1,24 @@
+.card {
+    margin: 0.5rem;
+    height: 280px;
+    cursor: pointer;
+    background-size: cover;
+    position: relative;
+    background-size: cover;
+    text-align: center;
+}
+
+.title{
+    background-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0));
+    font-size: 1.75em;
+    font-weight: bold;
+    line-height: 50px;
+    margin-top: 0;
+    height: 70px;
+}
+
+app-favorite-btn{
+    position: absolute;
+    top: 0;
+    right: 1rem;
+}

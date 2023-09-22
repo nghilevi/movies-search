@@ -1,0 +1,18 @@
+
+.favorite-btn {
+    z-index: 100;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.favorite-btn-icon {
+    color: pink;
+    font-size: xx-large;
+    margin-right: 0.5rem
+}
+
+.favorite-btn-label {
+    color: pink;
+    font-size: medium;
+}

@@ -1,0 +1,24 @@
+/* Add application styles & imports to this file! */
+div, label, p, h1 {
+    color: pink
+}
+
+h1{
+    font-size: 2em;
+}
+body{
+    background-color: black;
+}
+
+button {
+    text-align: center;
+    padding: 0.75rem;
+    background: red;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+.container{
+    padding: 1rem
+}
