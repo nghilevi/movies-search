@@ -73,4 +73,8 @@ export class MoviesApiService {
 
     return this.http.get<PaginatedResult<MovieListItem>>(url, { params });
   }
+
+  getMovies({query, page}: {page: number; query: string}){
+    return query ? this.searchMovies(query, page) : this.getPopularMovies(page)
+  }
 }
