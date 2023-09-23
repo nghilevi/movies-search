@@ -22,11 +22,13 @@ export class MoviesService {
 
   private onSearchMoviesSub = new Subject();
   private onLoadMoreMoviesSub = new Subject();
+
+  // using BehaviorSubject to emit previous value to later subscribers (e.g thoses created from route navigation)
   private onUpdateMoviesSub = new BehaviorSubject<UpdateMoviesBy | null>(null);
 
   private onLoadMoreMovies$ = this.onLoadMoreMoviesSub.pipe(
     switchMap(() => this.getMovies()),
-    shareReplay(1)
+    shareReplay(1) // store previously emitted value on onLoadMoreMovies$ for later subscribers
   )
 
   private onSearchMovies$ = this.onSearchMoviesSub.pipe(
