@@ -30,4 +30,4 @@ go to  `http://localhost:4200/movies-search`
 ### Notes
 - Click on the heart icon 🤍 to save/unsave movie to favorites collection
 - You can access movie detail by manually entering the url e.g http://localhost:4200/movie/1008042
-- If you got issues when navigate aronud the app (e.g when click on the navigation bar buttons), check dev log to see if you got ChunkLoadError issue. If that's the case, clear your cache and try to run the app again.
+- If you encounter any problems while navigating within the app, such as issues when clicking on the navigation bar buttons, please check the development log for any ChunkLoadError messages. If you come across this error, try clearing your cache and then relaunch the app.
