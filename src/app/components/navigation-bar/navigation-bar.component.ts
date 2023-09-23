@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import {  NavigationEnd, Router, RouterModule } from '@angular/router';
-import { SearchService } from 'src/app/services/search.service';
+import { MoviesService } from 'src/app/services/movies.service';
 import { Unsub } from 'src/app/shared/unsub.class';
 
 @Component({
@@ -22,7 +22,7 @@ export class NavigationBarComponent extends Unsub implements OnInit {
     name: new FormControl('')
   })
 
-  constructor(private router: Router, private searchService: SearchService) {
+  constructor(private router: Router, private moviesService: MoviesService) {
     super();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -30,7 +30,7 @@ export class NavigationBarComponent extends Unsub implements OnInit {
         this.isFavoritesPage = event.url === '/movie/favorites'
 
         if(this.isHomePage){
-          this.searchForm?.setValue({name: this.searchService.searchValue})
+          this.searchForm?.setValue({name: this.moviesService.searchValue})
         }
       }
     });
@@ -38,7 +38,7 @@ export class NavigationBarComponent extends Unsub implements OnInit {
 
   ngOnInit(): void {
     this.searchForm.get('name')?.valueChanges.subscribe(searchStr => {
-      this.searchService.search(searchStr || '')
+      this.moviesService.search(searchStr || '')
     });
   }
 

@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BehaviorSubject, finalize, map, shareReplay, takeUntil, tap } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { MovieCardsComponent } from 'src/app/components/movie-cards/movie-cards.component';
-import { MovieListItem } from 'src/app/shared/movies.model';
-import { PaginatedResult } from 'src/app/shared/shared.model';
-import { MoviesApiService } from '../../services/movies.api-service';
 import { Unsub } from 'src/app/shared/unsub.class';
-import { SearchService } from 'src/app/services/search.service';
+import { MoviesService } from 'src/app/services/movies.service';
 
 @Component({
   selector: 'app-movies-search',
@@ -19,10 +16,10 @@ import { SearchService } from 'src/app/services/search.service';
 })
 export class MoviesSearchComponent extends Unsub implements OnInit {
 
-  movies$ = this.searchService.loadedMovies$.pipe(takeUntil(this.unsubscribe$));
+  movies$ = this.moviesService.loadedMovies$.pipe(takeUntil(this.unsubscribe$));
   windowScrolled = false;
 
-  constructor(public searchService: SearchService) {
+  constructor(public moviesService: MoviesService) {
     super();
   }
 
@@ -33,7 +30,7 @@ export class MoviesSearchComponent extends Unsub implements OnInit {
   }
 
   loadMoviesMore(){
-    this.searchService.loadMoreMovies()
+    this.moviesService.loadMoreMovies()
   }
 
   scrollToTop(): void {

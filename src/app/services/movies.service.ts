@@ -7,8 +7,10 @@ import { MoviesApiService } from './movies.api-service';
 @Injectable({
   providedIn: 'root'
 })
-export class SearchService {
+export class MoviesService {
 
+  constructor(private moviesApiService: MoviesApiService) {}
+  
   isLoading = false;
   currentPage = 1
 
@@ -49,7 +51,7 @@ export class SearchService {
     return this.onSearchSub.value
   }
 
-  constructor(private moviesApiService: MoviesApiService) {}
+  
 
   loadMovies(): Observable<MovieListItem[]>{
     this.isLoading = true

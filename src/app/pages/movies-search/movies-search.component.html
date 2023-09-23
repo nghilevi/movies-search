@@ -1,6 +1,6 @@
 <app-movie-cards id="movies-list" [movies]="movies$ | async"></app-movie-cards>
 <section class="load-more">
-    <button [disabled]="searchService.isLoading" (click)="loadMoviesMore()">{{searchService.isLoading ? 'Loading...' : 'Load more movies'}}</button>
+    <button [disabled]="moviesService.isLoading" (click)="loadMoviesMore()">{{moviesService.isLoading ? 'Loading...' : 'Load more movies'}}</button>
     <button class="to-top-btn" (click)="scrollToTop()" [ngClass]="{ 'to-top-btn-show': windowScrolled }">⬆</button>
 </section>
 
