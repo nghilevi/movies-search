@@ -2,6 +2,12 @@
 
 This project was generated with Angular CLI version 16.
 
+<img src="screenshots/search.png" />
+
+<img src="screenshots/detail.png" />
+
+<img src="screenshots/favorite.png" />
+
 ### Development server
 
 Run `ng serve` for a dev server. Navigate to _http://localhost:4200/_. The app will automatically reload if you change any of the source files.
