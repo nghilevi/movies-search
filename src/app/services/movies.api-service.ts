@@ -43,8 +43,7 @@ export class MoviesApiService {
     };
   }
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getMovie(movieId: string): Observable<Movie> { // get movie by id
     const { url, params } = MoviesApiService.getUrlAndParams(

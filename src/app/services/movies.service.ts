@@ -12,8 +12,8 @@ export class MoviesService {
   constructor(private moviesApiService: MoviesApiService) {}
   
   isLoading = false;
-  currentPage = 0
-  loadedMovies: MovieListItem[] = []
+  private currentPage = 0
+  private loadedMovies: MovieListItem[] = []
 
   private onSearchSub = new BehaviorSubject<string>('');
   private onLoadMoreSub = new BehaviorSubject<void>(undefined);

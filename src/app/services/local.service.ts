@@ -9,22 +9,22 @@ export class LocalService {
 
   constructor() { }
 
-  public saveData(key: string, value: string) {
+  saveData(key: string, value: string) {
     localStorage.setItem(key, value);
   }
 
-  public getData(key: string) {
+  getData(key: string) {
     return localStorage.getItem(key)
   }
-  public removeData(key: string) {
+  removeData(key: string) {
     localStorage.removeItem(key);
   }
 
-  public clearData() {
+  clearData() {
     localStorage.clear();
   }
 
-  public getFavoritesStore(){
+  getFavoritesStore(){
     const favoritesStr = this.getData(LS_KEY)
     return favoritesStr ? JSON.parse(favoritesStr) : {}
   }
