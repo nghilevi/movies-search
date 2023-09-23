@@ -2,11 +2,11 @@
 
 This project was generated with Angular CLI version 16.
 
-<img src="screenshots/search.png" />
+<img src="screenshots/1-search.png" />
 
-<img src="screenshots/detail.png" />
+<img src="screenshots/2-detail.png" />
 
-<img src="screenshots/favorite.png" />
+<img src="screenshots/3-favorite.png" />
 
 ### Development server
 
