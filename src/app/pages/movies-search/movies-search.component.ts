@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnInit, TrackByFunction, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MovieCardComponent } from '../../components/movie-card/movie-card.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BehaviorSubject, debounceTime, distinctUntilChanged, fromEvent, map, takeUntil } from 'rxjs';
+import { BehaviorSubject, finalize, takeUntil, tap } from 'rxjs';
 import { MovieCardsComponent } from 'src/app/components/movie-cards/movie-cards.component';
 import { MovieListItem } from 'src/app/shared/movies.model';
 import { PaginatedResult } from 'src/app/shared/shared.model';
@@ -23,9 +23,7 @@ export class MoviesSearchComponent extends Unsub implements OnInit {
   movies$ = this.moviesSub.asObservable()
 
   isLoading = false
-  searchValue = ''
   currentPage = 1
-  
   windowScrolled = false;
 
   constructor(private MoviesApiService: MoviesApiService, private searchService: SearchService) {
@@ -37,7 +35,6 @@ export class MoviesSearchComponent extends Unsub implements OnInit {
     this.searchService.onSearch$
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe((searchValue: string) => {
-      this.searchValue = searchValue
       this.currentPage = 1
       this.loadMovies()
     });
@@ -55,15 +52,12 @@ export class MoviesSearchComponent extends Unsub implements OnInit {
   loadMovies(){
     this.isLoading = true
     const isLoadMore = this.currentPage > 1
+    const searchValue = this.searchService.searchValue
     const updateMoviesList = (data: PaginatedResult<MovieListItem>) => {
-      this.moviesSub.next((isLoadMore ? this.moviesSub.value : []).concat(data.results))
-      this.isLoading = false
+      this.moviesSub.next((isLoadMore ? this.moviesSub.value : []).concat(data.results)) // this update movies$
     }
-    if(this.searchValue){
-      this.MoviesApiService.searchMovies(this.searchValue, this.currentPage).pipe(takeUntil(this.unsubscribe$)).subscribe(updateMoviesList);
-    }else{
-      this.MoviesApiService.getPopularMovies(this.currentPage).pipe(takeUntil(this.unsubscribe$)).subscribe(updateMoviesList);
-    }
+    const movies$ = searchValue ? this.MoviesApiService.searchMovies(searchValue, this.currentPage) : this.MoviesApiService.getPopularMovies(this.currentPage)
+    return movies$.pipe(takeUntil(this.unsubscribe$), tap(updateMoviesList), finalize(() => {this.isLoading = false})).subscribe();
   }
 
   scrollToTop(): void {
