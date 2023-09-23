@@ -3,6 +3,10 @@
         'background-image': 'url(https://www.themoviedb.org/t/p/w440_and_h660_face/' + movie.poster_path + ')',
         'background-size': 'cover'
     }">
-    <h1 class="title">{{movie.title}} {{ movie.release_date }} {{ movie.vote_average }}</h1>
-    <app-add-favorite-movie-btn [movie]="movie"></app-add-favorite-movie-btn>
+    <div class="movie-card-header">
+        <span class="vote-average" title="Average voting">{{ movie.vote_average | number: '1.0-1'}}</span>
+        <h1 class="title">{{movie.title}}</h1>
+        <p class="release-date">{{ movie.release_date | date:'mediumDate'}} </p>
+        <app-add-favorite-movie-btn [movie]="movie"></app-add-favorite-movie-btn>
+    </div>
 </div>

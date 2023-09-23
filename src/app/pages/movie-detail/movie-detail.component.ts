@@ -28,7 +28,7 @@ export class MovieDetailComponent implements OnInit {
         const movieId = paths[1].path
         this.movie$ = this.MoviesApiService.getMovie(movieId).pipe(
           map((movie: Movie) => {
-            return {...movie, genresNames: movie.genres.map((g: Genre) => g.name).join()}
+            return {...movie, genresNames: movie.genres.map((g: Genre) => g.name).join(', ')}
           })
         )
       });

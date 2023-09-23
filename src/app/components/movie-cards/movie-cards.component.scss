@@ -3,3 +3,25 @@
     grid-template-columns: 1fr 1fr 1fr;
     margin-top: 4rem;
 }
+
+/* ---------------------- SMALL SCREENS ---------------------- */
+
+/* medium screen: 2 COLUMNS */
+@media screen and (max-width: 900px) {
+    .movie-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+    app-movie-card {
+        height: 35vw;
+    }
+}
+
+/* narrow screen 1 COLUMN */
+@media screen and (max-width: 750px) {
+    .movie-cards {
+        grid-template-columns: 1fr;
+    }
+    app-movie-card {
+        height: 40vw;
+    }
+}

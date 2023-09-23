@@ -5,20 +5,52 @@
     background-size: cover;
     position: relative;
     background-size: cover;
-    text-align: center;
+    opacity: 0.8;
+
+    &:hover{
+        opacity: 1;
+        h1, p {
+            color: white;
+        }
+    }
 }
 
-.title{
+.movie-card-header{
+    padding-top: 1rem;
+    display: grid;
     background-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0));
-    font-size: 1.75em;
-    font-weight: bold;
-    line-height: 50px;
-    margin-top: 0;
-    height: 70px;
+    grid-template-areas: 
+        "vote title title title favorite"
+        ". release release release release"
+    ;
+
+    .vote-average{
+        grid-area: vote;
+        margin: 0rem 0.2rem 0 0.5rem;
+        padding: 0.5rem;
+        border-radius: 5px;
+        background: orange;
+        color: black;
+        font-weight: bold;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+    }
+
+    .title{
+        grid-area: title;
+        margin: 0;
+    }
+
+    .release-date{
+        grid-area: release;
+        margin: 0;
+    }
+
+    app-add-favorite-movie-btn {
+        grid-area: favorite;
+        text-align: right;
+    }
 }
 
-app-add-favorite-movie-btn {
-    position: absolute;
-    top: 0;
-    right: 1rem;
-}
+

@@ -9,9 +9,9 @@
                     <h1>{{movie.title}}</h1>
                     <app-add-favorite-movie-btn [movie]="movie"></app-add-favorite-movie-btn>
                 </div>
-                <p><label>Release date: </label>{{movie.release_date}}</p>
+                <p><label>Release date: </label>{{movie.release_date | date:'mediumDate'}}</p>
                 <p><label>Genres: </label>{{movie.genresNames}}</p>
-                <p><label>Average: </label>{{movie.vote_average}}</p>
+                <p><label>Average voting: </label>{{movie.vote_average | number: '1.0-1'}}</p>
                 <p>{{movie.overview}}</p>
             </section>
             
