@@ -7,6 +7,7 @@
 ### 1/ Search page
 <img src="screenshots/1-search.png" />
 
+### 1.2/ Search page on small screen size
 <img src="screenshots/1.2-search.png" />
 
 ### 2/ Detail page
