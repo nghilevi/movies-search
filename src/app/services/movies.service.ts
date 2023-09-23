@@ -20,41 +20,41 @@ export class MoviesService {
   private currentPage = 0
   private loadedMovies: MovieListItem[] = []
 
-  private onSearchSub = new Subject();
-  private onLoadMoreSub = new Subject();
+  private onSearchMoviesSub = new Subject();
+  private onLoadMoreMoviesSub = new Subject();
   private onUpdateMoviesSub = new BehaviorSubject<UpdateMoviesBy | null>(null);
 
-  onLoadMoreMovies$ = this.onLoadMoreSub.pipe(
-    switchMap(() => this.loadMovies()),
+  private onLoadMoreMovies$ = this.onLoadMoreMoviesSub.pipe(
+    switchMap(() => this.getMovies()),
     shareReplay(1)
   )
 
-  onSearchMovies$ = this.onSearchSub.pipe(
-    switchMap(() => this.loadMovies()),
+  private onSearchMovies$ = this.onSearchMoviesSub.pipe(
+    switchMap(() => this.getMovies()),
     shareReplay(1)
   )
 
-  loadedMovies$: Observable<MovieListItem[]> = this.onUpdateMoviesSub.pipe(
+  movies$: Observable<MovieListItem[]> = this.onUpdateMoviesSub.pipe(
     switchMap((evtName) => {
       if(!evtName) return of([])
       return evtName ===  UpdateMoviesBy.Search ? this.onSearchMovies$ : this.onLoadMoreMovies$
     }),
   )
 
-  search(searchString: string){
+  searchMovies(searchString: string){
     this.searchString = searchString
     this.currentPage = 1
     this.onUpdateMoviesSub.next(UpdateMoviesBy.Search)
-    this.onSearchSub.next('')
+    this.onSearchMoviesSub.next('')
   }
 
   loadMoreMovies(){
     this.currentPage++
     this.onUpdateMoviesSub.next(UpdateMoviesBy.LoadMore)
-    this.onLoadMoreSub.next('')
+    this.onLoadMoreMoviesSub.next('')
   }
 
-  loadMovies(): Observable<MovieListItem[]>{
+  private getMovies(): Observable<MovieListItem[]>{
     return this.moviesApiService.getMovies({query: this.searchString, page: this.currentPage}).pipe(
       tap(() => { this.isLoading = true; }),
       map((data: PaginatedResult<MovieListItem>) => {

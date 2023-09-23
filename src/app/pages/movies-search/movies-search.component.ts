@@ -16,7 +16,7 @@ import { MoviesService } from 'src/app/services/movies.service';
 })
 export class MoviesSearchComponent extends Unsub implements OnInit {
 
-  movies$ = this.moviesService.loadedMovies$.pipe(takeUntil(this.unsubscribe$));
+  movies$ = this.moviesService.movies$.pipe(takeUntil(this.unsubscribe$));
   windowScrolled = false;
 
   constructor(public moviesService: MoviesService) {
@@ -25,7 +25,7 @@ export class MoviesSearchComponent extends Unsub implements OnInit {
 
   ngOnInit(): void {
     window.addEventListener('scroll', () => {
-      this.windowScrolled = window.pageYOffset !== 0;
+      this.windowScrolled = window.pageYOffset > 200;
     });
   }
 
