@@ -28,7 +28,7 @@ export class NavigationBarComponent extends Unsub implements OnInit {
       if (event instanceof NavigationEnd) {
         const url = event.urlAfterRedirects
         this.isHomePage = url === '/movies-search'
-        this.isFavoritesPage = url === '/movie/favorites'
+        this.isFavoritesPage = url === '/favorites-movie'
 
         if(this.isHomePage){
           this.searchForm?.setValue({name: this.moviesService.searchValue})

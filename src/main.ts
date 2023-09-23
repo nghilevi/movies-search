@@ -11,7 +11,7 @@ const routes: Routes = [
     loadComponent: () => import('./app/pages/movies-search/movies-search.component').then((c) => c.MoviesSearchComponent)
   },
   {
-    path: 'movie/favorites',
+    path: 'favorites-movie',
     loadComponent: () => import('./app/pages/favorite-movies/favorite-movies.component').then((c) => c.FavoriteMoviesComponent)
   },
   {
