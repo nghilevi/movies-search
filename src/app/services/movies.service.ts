@@ -12,16 +12,17 @@ export class MoviesService {
   constructor(private moviesApiService: MoviesApiService) {}
   
   isLoading = false;
-  currentPage = 1
+  currentPage = 0
+  loadedMovies: MovieListItem[] = []
 
   private onSearchSub = new BehaviorSubject<string>('');
   private onLoadMoreSub = new BehaviorSubject<void>(undefined);
   private onUpdateMoviesSub = new BehaviorSubject<string>('');
-  loadedMovies: MovieListItem[] = []
   
   onLoadMoreMovies$ = this.onLoadMoreSub.pipe(
+    tap(() => { this.currentPage++ }),
     switchMap(() => this.loadMovies()),
-    shareReplay(1) // if there is new subscriber, replay the previous emit
+    shareReplay(1)
   )
 
   onSearchMovies$ = this.onSearchSub.pipe(
@@ -42,7 +43,6 @@ export class MoviesService {
   }
 
   loadMoreMovies(){
-    this.currentPage++;
     this.onLoadMoreSub.next()
     this.onUpdateMoviesSub.next('')
   }
@@ -51,18 +51,16 @@ export class MoviesService {
     return this.onSearchSub.value
   }
 
-  
-
   loadMovies(): Observable<MovieListItem[]>{
     this.isLoading = true
     const searchValue = this.searchValue
-    const updateMoviesList = (data: PaginatedResult<MovieListItem>) => {
+    const updateLoadMovies = (data: PaginatedResult<MovieListItem>) => {
       const isLoadMore = this.currentPage > 1
       this.loadedMovies = isLoadMore ? this.loadedMovies.concat(data.results) : data.results
       return this.loadedMovies
     }
-    const movies$ = searchValue ? this.moviesApiService.searchMovies(searchValue, this.currentPage) : this.moviesApiService.getPopularMovies(this.currentPage)
-    return movies$.pipe(map(updateMoviesList), finalize(() => {this.isLoading = false}));
+    const moviesReq$ = searchValue ? this.moviesApiService.searchMovies(searchValue, this.currentPage) : this.moviesApiService.getPopularMovies(this.currentPage)
+    return moviesReq$.pipe(map(updateLoadMovies), finalize(() => {this.isLoading = false}));
   }
 
 }
