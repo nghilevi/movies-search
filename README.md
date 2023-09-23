@@ -4,8 +4,6 @@
 - Tested on: Chrome 112.0.5615.49, Firefox 117.0.1 
 - Usage notes: click on the heart icon to save movie to favorites collection
 
-[`Demo`](https://nghilevi.github.io/movies-search/)
-
 ### 1/ Search page
 <img src="screenshots/1-search.png" />
 

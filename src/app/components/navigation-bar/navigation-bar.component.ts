@@ -16,6 +16,7 @@ export class NavigationBarComponent extends Unsub implements OnInit {
   
   isHomePage = true
   isFavoritesPage = false
+  isDetailPage = false
   @ViewChild('searchBox') searchBox: ElementRef | null = null
 
   searchForm = new FormGroup({
@@ -29,6 +30,7 @@ export class NavigationBarComponent extends Unsub implements OnInit {
         const url = event.urlAfterRedirects
         this.isHomePage = url === '/movies-search'
         this.isFavoritesPage = url === '/favorites-movie'
+        this.isDetailPage = !this.isHomePage && !this.isFavoritesPage
 
         if(this.isHomePage){
           this.searchForm?.setValue({name: this.moviesService.searchValue})

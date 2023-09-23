@@ -3,5 +3,5 @@
         <input formControlName="name" placeholder="🔎 Search for movies" />
     </form>
     <button *ngIf="!isHomePage" routerLink="/">🔎 Search page</button>
-    <button *ngIf="!isFavoritesPage" class="view-favorites-btn" routerLink="/favorites-movie">🩷 View favorites</button>
+    <button *ngIf="!isFavoritesPage && !isDetailPage" class="view-favorites-btn" routerLink="/favorites-movie">🩷 View favorites</button>
 </section>
