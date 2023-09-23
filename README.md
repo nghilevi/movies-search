@@ -2,7 +2,7 @@
 
 - This project was generated with Angular CLI version 16.
 - Tested on: Chrome 112.0.5615.49, Firefox 117.0.1 
-- Usage notes: click on the heart icon to save movie to favorites collection
+- Please see usage notes [here](#notes)
 
 ### 1/ Search page
 <img src="screenshots/1-search.png" />
@@ -26,3 +26,8 @@ npm run start
 ```
 
 go to  `http://localhost:4200/movies-search`
+
+### Notes
+- Click on the heart icon 🤍 to save/unsave movie to favorites collection
+- You can access movie detail by manually entering the url e.g http://localhost:4200/movie/1008042
+- If you got issues when navigate aronud the app (e.g when click on the navigation bar buttons), check dev log to see if you got ChunkLoadError issue. If that's the case, clear your cache and try to run the app again.
