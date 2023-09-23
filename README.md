@@ -4,6 +4,8 @@
 - Tested on: Chrome 112.0.5615.49, Firefox 117.0.1 
 - Usage notes: click on the heart icon to save movie to favorites collection
 
+[`Demo`](https://nghilevi.github.io/movies-search/)
+
 ### 1/ Search page
 <img src="screenshots/1-search.png" />
 
@@ -23,3 +25,5 @@ Clone the project and run the following commands to see the project on your brow
 npm install
 npm run start
 ```
+
+go to  `http://localhost:4200/movies-search`

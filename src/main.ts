@@ -6,7 +6,7 @@ import { AppComponent } from './app/app.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'movies-search',
     pathMatch: 'full',
     loadComponent: () => import('./app/pages/movies-search/movies-search.component').then((c) => c.MoviesSearchComponent)
   },
@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    redirectTo: 'movies-search'
   },
 ];
 
