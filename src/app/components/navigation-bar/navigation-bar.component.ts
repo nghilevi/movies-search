@@ -19,7 +19,7 @@ export class NavigationBarComponent extends Unsub implements OnInit {
   isFavoritesPage = false
 
   searchForm = new FormGroup({
-    name: new FormControl('')
+    query: new FormControl('')
   })
 
   constructor(private router: Router, private moviesService: MoviesService) {
@@ -30,18 +30,18 @@ export class NavigationBarComponent extends Unsub implements OnInit {
         this.isHomePage = url === '/'
         this.isFavoritesPage = url === '/favorites'
         if(this.isHomePage){
-          this.searchForm?.setValue({name: this.moviesService.searchStringVal})
+          this.searchForm?.setValue({query: this.moviesService.query})
         }
       }
     });
   }
 
   ngOnInit(): void {
-    this.searchForm.get('name')?.valueChanges.pipe(
+    this.searchForm.get('query')?.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-    ).subscribe(searchStr => {
-      this.moviesService.searchMovies(searchStr || '')
+    ).subscribe(query => {
+      this.moviesService.searchMovies(query || '')
     });
   }
 

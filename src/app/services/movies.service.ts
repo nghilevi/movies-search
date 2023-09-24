@@ -15,32 +15,31 @@ export class MoviesService {
   constructor(private moviesApiService: MoviesApiService) {}
   
   private isLoading = false;
-  private searchString = ''
   private currentPage = 1
   private loadedMovies: MovieListItem[] = []
 
-  private getMoviesSub = new Subject();
-  private getMovies$ = this.getMoviesSub.pipe(switchMap(() => this.getMovies()), shareReplay(1))
+  private querySub = new BehaviorSubject<string>('');
+  private getMovies$ = this.querySub.pipe(switchMap((query) => this.getMovies(query)), shareReplay(1))
   private userInteractionsSub = new BehaviorSubject<UserInteraction | null>(null); // remember previous user interaction for later subscriptions (e.g using async pipe)
+  
   movies$: Observable<MovieListItem[]> = this.userInteractionsSub.pipe(switchMap((evtName) => evtName ? this.getMovies$ : of([])))
 
-  searchMovies(searchString: string){
-    this.searchString = searchString
-    this.updateMovies(UserInteraction.Search)
+  searchMovies(query: string){
+    this.updateMovies(UserInteraction.Search, query)
   }
 
   loadMoreMovies(){
-    this.updateMovies(UserInteraction.LoadMore)
+    this.updateMovies(UserInteraction.LoadMore, this.querySub.value)
   }
 
-  private updateMovies(by: UserInteraction){
+  private updateMovies(by: UserInteraction, query: string){
     this.currentPage = by === UserInteraction.Search ? 1 : this.currentPage + 1
     this.userInteractionsSub.next(by)
-    this.getMoviesSub.next('')
+    this.querySub.next(query)
   }
 
-  private getMovies(): Observable<MovieListItem[]>{
-    return this.moviesApiService.getMovies({query: this.searchString, page: this.currentPage}).pipe(
+  private getMovies(query: string): Observable<MovieListItem[]>{
+    return this.moviesApiService.getMovies({query, page: this.currentPage}).pipe(
       tap(() => { this.isLoading = true }),
       map((data: PaginatedResult<MovieListItem>) => {
         const isLoadMore = this.currentPage > 1
@@ -51,8 +50,8 @@ export class MoviesService {
     );
   }
 
-  get searchStringVal(){
-    return this.searchString
+  get query(){
+    return this.querySub.value
   }
 
   get isLoadingVal(){
