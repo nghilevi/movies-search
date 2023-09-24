@@ -14,8 +14,7 @@ export class MoviesService {
 
   constructor(private moviesApiService: MoviesApiService) {}
   
-  isLoading = false;
-
+  private isLoading = false;
   private searchString = ''
   private currentPage = 0
   private loadedMovies: MovieListItem[] = []
