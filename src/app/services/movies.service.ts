@@ -4,7 +4,7 @@ import { MovieListItem } from '../shared/movies.model';
 import { PaginatedResult } from '../shared/shared.model';
 import { MoviesApiService } from './movies.api-service';
 
-enum UpdateMoviesBy {
+enum UserInteraction {
   Search = 'search', LoadMore = 'load more'
 }
 @Injectable({
@@ -20,25 +20,22 @@ export class MoviesService {
   private loadedMovies: MovieListItem[] = []
 
   private getMoviesSub = new Subject();
-  private getMovies$ = this.getMoviesSub.pipe(switchMap(() => this.getMovies()), shareReplay(1)) // store previously emitted value on getMovies$ for later subscribers
-
-  // using BehaviorSubject to emit previous value to later subscribers (e.g thoses created from route navigation)
-  private onUpdateMoviesSub = new BehaviorSubject<UpdateMoviesBy | null>(null);
-
-  movies$: Observable<MovieListItem[]> = this.onUpdateMoviesSub.pipe(switchMap((evtName) => evtName ? this.getMovies$ : of([])))
+  private getMovies$ = this.getMoviesSub.pipe(switchMap(() => this.getMovies()), shareReplay(1))
+  private userInteractionsSub = new BehaviorSubject<UserInteraction | null>(null); // remember previous user interaction for later subscriptions (e.g using async pipe)
+  movies$: Observable<MovieListItem[]> = this.userInteractionsSub.pipe(switchMap((evtName) => evtName ? this.getMovies$ : of([])))
 
   searchMovies(searchString: string){
     this.searchString = searchString
-    this.updateMovies(UpdateMoviesBy.Search)
+    this.updateMovies(UserInteraction.Search)
   }
 
   loadMoreMovies(){
-    this.updateMovies(UpdateMoviesBy.LoadMore)
+    this.updateMovies(UserInteraction.LoadMore)
   }
 
-  updateMovies(by: UpdateMoviesBy){
-    this.currentPage = by === UpdateMoviesBy.Search ? 1 : this.currentPage + 1
-    this.onUpdateMoviesSub.next(by)
+  private updateMovies(by: UserInteraction){
+    this.currentPage = by === UserInteraction.Search ? 1 : this.currentPage + 1
+    this.userInteractionsSub.next(by)
     this.getMoviesSub.next('')
   }
 
