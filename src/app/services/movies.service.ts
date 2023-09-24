@@ -58,13 +58,13 @@ export class MoviesService {
 
   private getMovies(): Observable<MovieListItem[]>{
     return this.moviesApiService.getMovies({query: this.searchString, page: this.currentPage}).pipe(
-      tap(() => { this.isLoading = true; console.log('loading TRUE') }),
+      tap(() => { this.isLoading = true }),
       map((data: PaginatedResult<MovieListItem>) => {
         const isLoadMore = this.currentPage > 1
         this.loadedMovies = isLoadMore ? this.loadedMovies.concat(data.results) : data.results
         return this.loadedMovies
       }), 
-      finalize(() => {this.isLoading = false; console.log('loading FALSE')})
+      finalize(() => {this.isLoading = false })
     );
   }
 
