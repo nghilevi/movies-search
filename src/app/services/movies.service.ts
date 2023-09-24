@@ -22,7 +22,7 @@ export class MoviesService {
   private getMovies$ = this.querySub.pipe(switchMap((query) => this.getMovies(query)), shareReplay(1))
   private userInteractionsSub = new BehaviorSubject<UserInteraction | null>(null); // remember previous user interaction for later subscriptions (e.g using async pipe)
   
-  movies$: Observable<MovieListItem[]> = this.userInteractionsSub.pipe(switchMap((evtName) => evtName ? this.getMovies$ : of([])))
+  movies$: Observable<MovieListItem[]> = this.userInteractionsSub.pipe(switchMap((interaction) => interaction ? this.getMovies$ : of([])))
 
   searchMovies(query: string){
     this.updateMovies(UserInteraction.Search, query)
@@ -32,9 +32,9 @@ export class MoviesService {
     this.updateMovies(UserInteraction.LoadMore, this.querySub.value)
   }
 
-  private updateMovies(by: UserInteraction, query: string){
-    this.currentPage = by === UserInteraction.Search ? 1 : this.currentPage + 1
-    this.userInteractionsSub.next(by)
+  private updateMovies(interaction: UserInteraction, query: string){
+    this.currentPage = interaction === UserInteraction.Search ? 1 : this.currentPage + 1
+    this.userInteractionsSub.next(interaction)
     this.querySub.next(query)
   }
 
