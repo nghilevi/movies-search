@@ -20,13 +20,18 @@ h1{
 button {
     text-align: center;
     padding: 0.75rem;
-    background: brown;
-    color: lightpink;
+    // background: brown;
+    background-image: linear-gradient(to right, #E55D87 0%, #5FC3E4  51%, #E55D87  100%);
+    text-align: center;
+    color: white;
+    transition: 0.5s;
+    background-size: 200% auto;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     &:hover {
-        color: white;
+        background-position: right center; /* change the direction of the change here */
+        text-decoration: none;
     }
 }
 

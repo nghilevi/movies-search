@@ -14,6 +14,11 @@
     opacity: 0;
     background: black;
     border: 1px solid white;
+    padding: 0.5rem;
+    color: lightpink;
+    &:hover{
+        color: white;
+    }
 }
   
 .to-top-btn-show {

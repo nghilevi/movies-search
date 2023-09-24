@@ -6,12 +6,12 @@ import { AppComponent } from './app/app.component';
 
 const routes: Routes = [
   {
-    path: 'movies-search',
+    path: '',
     pathMatch: 'full',
     loadComponent: () => import('./app/pages/movies-search/movies-search.component').then((c) => c.MoviesSearchComponent)
   },
   {
-    path: 'favorites-movie',
+    path: 'favorites',
     loadComponent: () => import('./app/pages/favorite-movies/favorite-movies.component').then((c) => c.FavoriteMoviesComponent)
   },
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'movies-search'
+    redirectTo: ''
   },
 ];
 
