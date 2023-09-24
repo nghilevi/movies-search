@@ -16,43 +16,30 @@ export class MoviesService {
   
   private isLoading = false;
   private searchString = ''
-  private currentPage = 0
+  private currentPage = 1
   private loadedMovies: MovieListItem[] = []
 
-  private onSearchMoviesSub = new Subject();
-  private onLoadMoreMoviesSub = new Subject();
+  private getMoviesSub = new Subject();
+  private getMovies$ = this.getMoviesSub.pipe(switchMap(() => this.getMovies()), shareReplay(1)) // store previously emitted value on getMovies$ for later subscribers
 
   // using BehaviorSubject to emit previous value to later subscribers (e.g thoses created from route navigation)
   private onUpdateMoviesSub = new BehaviorSubject<UpdateMoviesBy | null>(null);
 
-  private onLoadMoreMovies$ = this.onLoadMoreMoviesSub.pipe(
-    switchMap(() => this.getMovies()),
-    shareReplay(1) // store previously emitted value on onLoadMoreMovies$ for later subscribers
-  )
-
-  private onSearchMovies$ = this.onSearchMoviesSub.pipe(
-    switchMap(() => this.getMovies()),
-    shareReplay(1)
-  )
-
-  movies$: Observable<MovieListItem[]> = this.onUpdateMoviesSub.pipe(
-    switchMap((evtName) => {
-      if(!evtName) return of([])
-      return evtName ===  UpdateMoviesBy.Search ? this.onSearchMovies$ : this.onLoadMoreMovies$
-    }),
-  )
+  movies$: Observable<MovieListItem[]> = this.onUpdateMoviesSub.pipe(switchMap((evtName) => evtName ? this.getMovies$ : of([])))
 
   searchMovies(searchString: string){
     this.searchString = searchString
-    this.currentPage = 1
-    this.onUpdateMoviesSub.next(UpdateMoviesBy.Search)
-    this.onSearchMoviesSub.next('')
+    this.updateMovies(UpdateMoviesBy.Search)
   }
 
   loadMoreMovies(){
-    this.currentPage++
-    this.onUpdateMoviesSub.next(UpdateMoviesBy.LoadMore)
-    this.onLoadMoreMoviesSub.next('')
+    this.updateMovies(UpdateMoviesBy.LoadMore)
+  }
+
+  updateMovies(by: UpdateMoviesBy){
+    this.currentPage = by === UpdateMoviesBy.Search ? 1 : this.currentPage + 1
+    this.onUpdateMoviesSub.next(by)
+    this.getMoviesSub.next('')
   }
 
   private getMovies(): Observable<MovieListItem[]>{
