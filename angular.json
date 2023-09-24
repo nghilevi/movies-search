@@ -39,7 +39,7 @@
             "assets": [],
             "index": "src/index.html",
             "main": "src/main.ts",
-            "outputPath": "docs/movies-search",
+            "outputPath": "dist/movies-search",
             "scripts": [],
             "styles": [
               "src/global_styles.scss"
