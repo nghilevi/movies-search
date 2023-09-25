@@ -16,7 +16,7 @@ export class MoviesService {
   constructor(private moviesApiService: MoviesApiService) {}
 
   private isLoading = false;
-  private loadedMovies: LoadedMovies = { searched: [], popular: [] }
+  private readonly loadedMovies: LoadedMovies = { searched: [], popular: [] }
 
   private userInputSub = new BehaviorSubject<{input: string, evt: UserEvt}>({input: '', evt: UserEvt.Init}); // remember previous user interaction for later subscriptions (e.g using async pipe)
   private searchedMoviesQuerySub = new BehaviorSubject<{query: string, page: number}>({query: '', page: 1});
@@ -55,11 +55,11 @@ export class MoviesService {
   private getMovies$({query, page}: {query?: string, page: number}): Observable<MovieListItem[]>{
     const dataType = query ? 'searched' : 'popular' as keyof LoadedMovies
     return this.moviesApiService.getMovies({query: query || '', page }).pipe(
-      tap(() => { this.isLoading = true }),
-      map((data: PaginatedResult<MovieListItem>) => {
+      tap((data: PaginatedResult<MovieListItem>) => { 
+        this.isLoading = true 
         this.loadedMovies[dataType] = page > 1 ? this.loadedMovies[dataType].concat(data.results) : data.results
-        return this.loadedMovies[dataType]
-      }), 
+      }),
+      map(() => this.loadedMovies[dataType]), 
       finalize(() => {this.isLoading = false })
     );
   }
