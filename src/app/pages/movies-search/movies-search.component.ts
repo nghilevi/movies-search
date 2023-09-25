@@ -32,6 +32,7 @@ export class MoviesSearchComponent extends Unsub implements OnInit, AfterViewIni
   }
 
   ngOnInit(): void {
+    this.moviesService.init()
     window.addEventListener('scroll', () => {
       this.windowScrolled = window.pageYOffset > 200;
     });
