@@ -5,7 +5,7 @@
 - This project was generated with Angular CLI version 16.
 - Tested on: Chrome 112.0.5615.49, Firefox 117.0.1
 - Please see usage notes [here](#notes)
-- **TODO**: For simplicity, currently only 1 observable (getMovies$) and 1 local variable for page (currentPage) is used for both searched and popular movies case. It is better to have 2 separate observables for each case e.g searchedMovies$ and popularMovies$ to be able to cache their data (emitted values, current page) separately which will optimize the app performance and UX further. 
+- **TODO**: For simplicity, currently only 1 observable (getMovies$) and 1 local variable for page (currentPage) are used for both searched and popular movies. It is better to have 2 separate observables for each category e.g searchedMovies$ and popularMovies$ to be able to cache their data (emitted values, current page) respectively which will optimize/enhance the app performance and UX further. 
 
 ### 1/ Search page
 <img src="screenshots/1-search.png" />
