@@ -24,8 +24,8 @@ export class MoviesService {
   private searchedMoviesQuerySub = new BehaviorSubject<string>('');
   private popularMoviesQuerySub = new BehaviorSubject<string>('');
 
-  private searchedMovies$ = this.searchedMoviesQuerySub.pipe(switchMap((query) => this.searchMovies2(query)), shareReplay(1))
-  private popularMovies$ = this.popularMoviesQuerySub.pipe(switchMap((query) => this.getPopularMovies(query)), shareReplay(1))
+  private searchedMovies$ = this.searchedMoviesQuerySub.pipe(switchMap((query) => this.getSearchedMovies$(query)), shareReplay(1))
+  private popularMovies$ = this.popularMoviesQuerySub.pipe(switchMap((query) => this.getPopularMovies$(query)), shareReplay(1))
 
   movies$: Observable<MovieListItem[]> = this.userInteractionsSub.pipe(switchMap(
     (i) => {
@@ -66,7 +66,7 @@ export class MoviesService {
   }
 
   private searchedMovies: MovieListItem[] = []
-  private searchMovies2(query: string): Observable<MovieListItem[]>{
+  private getSearchedMovies$(query: string): Observable<MovieListItem[]>{
     return this.moviesApiService.searchMovies(query, this.searchedMoviesPage).pipe(
       tap(() => { this.isLoading = true }),
       map((data: PaginatedResult<MovieListItem>) => {
@@ -79,7 +79,7 @@ export class MoviesService {
   }
 
   private popularMovies: MovieListItem[] = []
-  private getPopularMovies(query: string): Observable<MovieListItem[]>{
+  private getPopularMovies$(query: string): Observable<MovieListItem[]>{
     return this.moviesApiService.getPopularMovies(this.popularMoviesPage).pipe(
       tap(() => { this.isLoading = true }),
       map((data: PaginatedResult<MovieListItem>) => {
