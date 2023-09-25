@@ -4,8 +4,7 @@ import { MovieListItem } from '../shared/movies.model';
 import { PaginatedResult } from '../shared/shared.model';
 import { MoviesApiService } from './movies.api-service';
 
-type CachedMovies = { data: MovieListItem[], page: number}
-type LoadedMovies = { searched: CachedMovies, popular: CachedMovies}
+type LoadedMovies = { searched: MovieListItem[], popular: MovieListItem[]}
 enum UserInteraction {
   Init = 'init', Search = 'search', LoadMore = 'load more'
 }
@@ -19,13 +18,11 @@ export class MoviesService {
   private isLoading = false;
   private queryString = ''
 
-  private loadedMovies: LoadedMovies = {
-    searched: {data: [], page: 1}, popular: {data: [], page: 1}
-  }
+  private loadedMovies: LoadedMovies = { searched: [], popular: [] }
 
   private userInteractionsSub = new BehaviorSubject<UserInteraction | null>(null); // remember previous user interaction for later subscriptions (e.g using async pipe)
-  private searchedMoviesQuerySub = new BehaviorSubject<string>('');
-  private popularMoviesQuerySub = new BehaviorSubject<string>('');
+  private searchedMoviesQuerySub = new BehaviorSubject<{query: string, page: number}>({query: '', page: 1});
+  private popularMoviesQuerySub = new BehaviorSubject<{page: number}>({page: 1});
   private searchedMovies$ = this.searchedMoviesQuerySub.pipe(switchMap((query) => this.getMovies$(query)), shareReplay(1))
   private popularMovies$ = this.popularMoviesQuerySub.pipe(switchMap((query) => this.getMovies$(query)), shareReplay(1))
 
@@ -35,15 +32,17 @@ export class MoviesService {
       if(this.queryString){
         const shouldFetchMovies = i !== UserInteraction.Init
         if(shouldFetchMovies){
-          this.loadedMovies.searched.page = i === UserInteraction.Search ? 1 : this.loadedMovies.searched.page + 1
-          this.searchedMoviesQuerySub.next(this.queryString);
+          let page = this.searchedMoviesQuerySub.value.page
+          page = i === UserInteraction.Search ? 1 : page + 1
+          this.searchedMoviesQuerySub.next({ query: this.queryString, page });
         }
         return this.searchedMovies$
       }else{
        const shouldFetchMovies = (i !== UserInteraction.Init && i === UserInteraction.LoadMore)
        if(shouldFetchMovies){
-        this.loadedMovies.popular.page++
-          this.popularMoviesQuerySub.next(this.queryString)
+          let page = this.popularMoviesQuerySub.value.page
+          page++
+          this.popularMoviesQuerySub.next({ page })
         }
         return this.popularMovies$
       }
@@ -67,13 +66,13 @@ export class MoviesService {
     this.userInteractionsSub.next(interaction)
   }
   
-  private getMovies$(query: string): Observable<MovieListItem[]>{
+  private getMovies$({query, page}: {query?: string, page: number}): Observable<MovieListItem[]>{
     const dataType = query ? 'searched' : 'popular' as keyof LoadedMovies
-    return this.moviesApiService.getMovies({query, page: this.loadedMovies[dataType].page}).pipe(
+    return this.moviesApiService.getMovies({query: query || '', page }).pipe(
       tap(() => { this.isLoading = true }),
       map((data: PaginatedResult<MovieListItem>) => {
-        this.loadedMovies[dataType].data = this.loadedMovies[dataType].page > 1 ? this.loadedMovies[dataType].data.concat(data.results) : data.results
-        return this.loadedMovies[dataType].data
+        this.loadedMovies[dataType] = page > 1 ? this.loadedMovies[dataType].concat(data.results) : data.results
+        return this.loadedMovies[dataType]
       }), 
       finalize(() => {this.isLoading = false })
     );
