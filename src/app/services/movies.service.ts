@@ -17,32 +17,24 @@ export class MoviesService {
 
   private isLoading = false;
   private queryString = ''
-
   private loadedMovies: LoadedMovies = { searched: [], popular: [] }
 
-  private userInteractionsSub = new BehaviorSubject<UserInteraction | null>(null); // remember previous user interaction for later subscriptions (e.g using async pipe)
+  private userInteractionsSub = new BehaviorSubject<UserInteraction>(UserInteraction.Init); // remember previous user interaction for later subscriptions (e.g using async pipe)
   private searchedMoviesQuerySub = new BehaviorSubject<{query: string, page: number}>({query: '', page: 1});
   private popularMoviesQuerySub = new BehaviorSubject<{page: number}>({page: 1});
   private searchedMovies$ = this.searchedMoviesQuerySub.pipe(switchMap((query) => this.getMovies$(query)), shareReplay(1))
   private popularMovies$ = this.popularMoviesQuerySub.pipe(switchMap((query) => this.getMovies$(query)), shareReplay(1))
 
-  movies$: Observable<MovieListItem[]> = this.userInteractionsSub.pipe(switchMap(
+  movies$: Observable<MovieListItem[]> = this.userInteractionsSub.pipe(tap(console.log),switchMap(
     (i) => {
-      if(!i) return of([])
       if(this.queryString){
-        const shouldFetchMovies = i !== UserInteraction.Init
-        if(shouldFetchMovies){
-          let page = this.searchedMoviesQuerySub.value.page
-          page = i === UserInteraction.Search ? 1 : page + 1
-          this.searchedMoviesQuerySub.next({ query: this.queryString, page });
+        if(i !== UserInteraction.Init){
+          this.searchedMoviesQuerySub.next({ query: this.queryString, page: i === UserInteraction.Search ? 1 : ++this.searchedMoviesQuerySub.value.page });
         }
         return this.searchedMovies$
       }else{
-       const shouldFetchMovies = (i !== UserInteraction.Init && i === UserInteraction.LoadMore)
-       if(shouldFetchMovies){
-          let page = this.popularMoviesQuerySub.value.page
-          page++
-          this.popularMoviesQuerySub.next({ page })
+        if(i !== UserInteraction.Init && i === UserInteraction.LoadMore){
+          this.popularMoviesQuerySub.next({ page: ++this.popularMoviesQuerySub.value.page })
         }
         return this.popularMovies$
       }
