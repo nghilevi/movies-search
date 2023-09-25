@@ -15,7 +15,7 @@ export class MoviesService {
   constructor(private moviesApiService: MoviesApiService) {}
 
   private searchedMoviesPage = 1
-  popularMoviesPage = 1
+  private popularMoviesPage = 1
 
   private isLoading = false;
   private queryString = ''
@@ -84,7 +84,6 @@ export class MoviesService {
       tap(() => { this.isLoading = true }),
       map((data: PaginatedResult<MovieListItem>) => {
         const isLoadMore = this.popularMoviesPage > 1
-        console.log('isLoadMore: ', isLoadMore)
         this.popularMovies = isLoadMore ? this.popularMovies.concat(data.results) : data.results
         return this.popularMovies
       }), 

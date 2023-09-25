@@ -55,7 +55,6 @@ export class MoviesApiService {
   }
 
   getPopularMovies(page = 1): Observable<PaginatedResult<MovieListItem>> {
-    console.log('getPopularMovies')
     const { url, params } = MoviesApiService.getUrlAndParams('/movie/popular', {
       page,
     });
@@ -67,7 +66,6 @@ export class MoviesApiService {
     query: string,
     page = 1
   ): Observable<PaginatedResult<MovieListItem>> {
-    console.log('searchMovies')
     const { url, params } = MoviesApiService.getUrlAndParams('/search/movie', {
       page,
       query,
