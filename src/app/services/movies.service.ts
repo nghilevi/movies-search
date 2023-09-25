@@ -41,19 +41,15 @@ export class MoviesService {
   )
   
   init(){
-    this.updateMovies(UserEvt.Init, this.userInputSub.value.input)
+    this.userInputSub.next({evt: UserEvt.Init, input: this.userInputSub.value.input})
   }
 
   searchMovies(query: string){
-    this.updateMovies(UserEvt.Search, query)
+    this.userInputSub.next({evt: UserEvt.Search, input: query})
   }
 
   loadMoreMovies(){
-    this.updateMovies(UserEvt.LoadMore, this.userInputSub.value.input)
-  }
-
-  private updateMovies(evt: UserEvt, input: string){
-    this.userInputSub.next({input, evt})
+    this.userInputSub.next({evt: UserEvt.LoadMore, input: this.userInputSub.value.input})
   }
   
   private getMovies$({query, page}: {query?: string, page: number}): Observable<MovieListItem[]>{
