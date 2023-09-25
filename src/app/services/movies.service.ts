@@ -24,7 +24,7 @@ export class MoviesService {
   private searchedMovies$ = this.searchedMoviesQuerySub.pipe(switchMap((query) => this.getMovies$(query)), shareReplay(1))
   private popularMovies$ = this.popularMoviesQuerySub.pipe(switchMap((query) => this.getMovies$(query)), shareReplay(1))
 
-  movies$: Observable<MovieListItem[]> = this.userInputSub.pipe(tap(console.log),switchMap(
+  movies$: Observable<MovieListItem[]> = this.userInputSub.pipe(switchMap(
     ({input, evt}) => {
       if(input){
         if(evt !== UserEvt.Init){
@@ -71,7 +71,7 @@ export class MoviesService {
   get searchString(){
     return this.userInputSub.value.input
   }
-  
+
   get isLoadingVal(){
     return this.isLoading
   }
