@@ -30,7 +30,7 @@ export class NavigationBarComponent extends Unsub implements OnInit {
         this.isHomePage = url === '/'
         this.isFavoritesPage = url === '/favorites'
         if(this.isHomePage){
-          this.searchForm?.setValue({query: this.moviesService.query})
+          this.searchForm?.setValue({query: this.moviesService.searchString})
         }
       }
     });

@@ -5,7 +5,7 @@ import { PaginatedResult } from '../shared/shared.model';
 import { MoviesApiService } from './movies.api-service';
 
 type LoadedMovies = { searched: MovieListItem[], popular: MovieListItem[]}
-enum UserInteraction {
+enum UserEvt {
   Init = 'init', Search = 'search', LoadMore = 'load more'
 }
 @Injectable({
@@ -16,24 +16,23 @@ export class MoviesService {
   constructor(private moviesApiService: MoviesApiService) {}
 
   private isLoading = false;
-  private queryString = ''
   private loadedMovies: LoadedMovies = { searched: [], popular: [] }
 
-  private userInteractionsSub = new BehaviorSubject<UserInteraction>(UserInteraction.Init); // remember previous user interaction for later subscriptions (e.g using async pipe)
+  private userInputSub = new BehaviorSubject<{input: string, evt: UserEvt}>({input: '', evt: UserEvt.Init}); // remember previous user interaction for later subscriptions (e.g using async pipe)
   private searchedMoviesQuerySub = new BehaviorSubject<{query: string, page: number}>({query: '', page: 1});
   private popularMoviesQuerySub = new BehaviorSubject<{page: number}>({page: 1});
   private searchedMovies$ = this.searchedMoviesQuerySub.pipe(switchMap((query) => this.getMovies$(query)), shareReplay(1))
   private popularMovies$ = this.popularMoviesQuerySub.pipe(switchMap((query) => this.getMovies$(query)), shareReplay(1))
 
-  movies$: Observable<MovieListItem[]> = this.userInteractionsSub.pipe(tap(console.log),switchMap(
-    (i) => {
-      if(this.queryString){
-        if(i !== UserInteraction.Init){
-          this.searchedMoviesQuerySub.next({ query: this.queryString, page: i === UserInteraction.Search ? 1 : ++this.searchedMoviesQuerySub.value.page });
+  movies$: Observable<MovieListItem[]> = this.userInputSub.pipe(tap(console.log),switchMap(
+    ({input, evt}) => {
+      if(input){
+        if(evt !== UserEvt.Init){
+          this.searchedMoviesQuerySub.next({ query: input, page: evt === UserEvt.Search ? 1 : ++this.searchedMoviesQuerySub.value.page });
         }
         return this.searchedMovies$
       }else{
-        if(i !== UserInteraction.Init && i === UserInteraction.LoadMore){
+        if(evt !== UserEvt.Init && evt === UserEvt.LoadMore){
           this.popularMoviesQuerySub.next({ page: ++this.popularMoviesQuerySub.value.page })
         }
         return this.popularMovies$
@@ -42,20 +41,19 @@ export class MoviesService {
   )
   
   init(){
-    this.updateMovies(UserInteraction.Init, this.queryString)
+    this.updateMovies(UserEvt.Init, this.userInputSub.value.input)
   }
 
   searchMovies(query: string){
-    this.updateMovies(UserInteraction.Search, query)
+    this.updateMovies(UserEvt.Search, query)
   }
 
   loadMoreMovies(){
-    this.updateMovies(UserInteraction.LoadMore, this.queryString)
+    this.updateMovies(UserEvt.LoadMore, this.userInputSub.value.input)
   }
 
-  private updateMovies(interaction: UserInteraction, query: string){
-    this.queryString = query
-    this.userInteractionsSub.next(interaction)
+  private updateMovies(evt: UserEvt, input: string){
+    this.userInputSub.next({input, evt})
   }
   
   private getMovies$({query, page}: {query?: string, page: number}): Observable<MovieListItem[]>{
@@ -70,10 +68,10 @@ export class MoviesService {
     );
   }
 
-  get query(){
-    return this.queryString
+  get searchString(){
+    return this.userInputSub.value.input
   }
-
+  
   get isLoadingVal(){
     return this.isLoading
   }
