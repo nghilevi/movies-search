@@ -1,7 +1,7 @@
 <section class="navigation-bar">
-    <form *ngIf="isHomePage" [formGroup]="searchForm">
+    <form [hidden]="!isHomePage" [formGroup]="searchForm">
         <input formControlName="query" placeholder="🔎 Search for movies" />
     </form>
-    <button *ngIf="!isHomePage" routerLink="/">🔎 Search page</button>
-    <button *ngIf="!isFavoritesPage" class="view-favorites-btn" routerLink="/favorites">🩷 View favorites</button>
+    <button [hidden]="isHomePage" routerLink="/">🔎 Search page</button>
+    <button [hidden]="isFavoritesPage" class="view-favorites-btn" routerLink="/favorites">🩷 View favorites</button>
 </section>
